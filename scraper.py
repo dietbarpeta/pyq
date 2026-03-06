@@ -10,13 +10,13 @@ ROOT_FOLDER = "pdf"
 
 os.makedirs(ROOT_FOLDER, exist_ok=True)
 
-# load main page
 res = requests.get(MAIN)
 soup = BeautifulSoup(res.text, "html.parser")
 
 pages = []
 
 for a in soup.find_all("a", href=True):
+
     href = a["href"]
 
     if "/papers/" in href and href.endswith(".html"):
@@ -33,6 +33,7 @@ print("Found pages:", len(pages))
 for page in pages:
 
     try:
+
         r = requests.get(page, timeout=30)
         soup = BeautifulSoup(r.text, "html.parser")
 
@@ -70,34 +71,40 @@ for page in pages:
 
         temp_file = "temp.pdf"
 
-        with open(temp_file, "wb") as f:
-            f.write(data)
+        try:
 
-        with pikepdf.open(temp_file) as pdf:
+            with open(temp_file, "wb") as f:
+                f.write(data)
 
-            pdf.docinfo = {}
+            with pikepdf.open(temp_file) as pdf:
 
-            root = pdf.Root
+                pdf.docinfo = {}
 
-            if "/OpenAction" in root:
-                del root["/OpenAction"]
+                root = pdf.Root
 
-            if "/AA" in root:
-                del root["/AA"]
+                if "/OpenAction" in root:
+                    del root["/OpenAction"]
 
-            for p in pdf.pages:
-                if "/Annots" in p:
-                    annots = p["/Annots"]
-                    for annot in annots:
-                        obj = annot.get_object()
-                        if "/A" in obj:
-                            del obj["/A"]
+                if "/AA" in root:
+                    del root["/AA"]
 
-            pdf.save(save_path)
+                for p in pdf.pages:
+                    if "/Annots" in p:
+                        annots = p["/Annots"]
+                        for annot in annots:
+                            obj = annot.get_object()
+                            if "/A" in obj:
+                                del obj["/A"]
 
-        os.remove(temp_file)
+                pdf.save(save_path)
+
+        finally:
+
+            if os.path.exists(temp_file):
+                os.remove(temp_file)
 
     except Exception as e:
+
         print("Error:", page, e)
 
 print("Scraping completed.")
