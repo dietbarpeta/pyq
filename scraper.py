@@ -71,17 +71,16 @@ for page in pages:
 
         temp_file = "temp.pdf"
 
+        with open(temp_file, "wb") as f:
+            f.write(data)
+
         try:
 
-            with open(temp_file, "wb") as f:
-                f.write(data)
-
+            # try cleaning PDF
             with pikepdf.open(temp_file) as pdf:
 
-                # remove metadata
                 pdf.docinfo = {}
 
-                # remove XMP metadata
                 try:
                     pdf.Root.Metadata = None
                 except:
@@ -89,24 +88,28 @@ for page in pages:
 
                 root = pdf.Root
 
-                # remove open actions
                 if "/OpenAction" in root:
                     del root["/OpenAction"]
 
                 if "/AA" in root:
                     del root["/AA"]
 
-                # remove annotations completely
                 for p in pdf.pages:
                     if "/Annots" in p:
                         del p["/Annots"]
 
                 pdf.save(save_path, linearize=True)
 
-        finally:
+        except Exception:
 
-            if os.path.exists(temp_file):
-                os.remove(temp_file)
+            # fallback: save original pdf
+            print("Cleaner failed, saving original:", filename)
+
+            os.rename(temp_file, save_path)
+            temp_file = None
+
+        if temp_file and os.path.exists(temp_file):
+            os.remove(temp_file)
 
     except Exception as e:
 
