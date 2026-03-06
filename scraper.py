@@ -7,14 +7,15 @@ BASE = "https://www.assamboard.com"
 MAIN = "https://www.assamboard.com/assam-deled.html"
 
 ROOT_FOLDER = "pdf"
-
 os.makedirs(ROOT_FOLDER, exist_ok=True)
 
+# Load main page
 res = requests.get(MAIN)
 soup = BeautifulSoup(res.text, "html.parser")
 
 pages = []
 
+# Collect paper pages
 for a in soup.find_all("a", href=True):
 
     href = a["href"]
@@ -61,6 +62,7 @@ for page in pages:
 
         save_path = os.path.join(class_path, filename)
 
+        # Skip if already exists
         if os.path.exists(save_path):
             print("Skip:", filename)
             continue
@@ -73,23 +75,32 @@ for page in pages:
 
         try:
 
+            # Save temp PDF
             with open(temp_file, "wb") as f:
                 f.write(data)
 
+            # Clean PDF
             with pikepdf.open(temp_file) as pdf:
 
-                # remove metadata
+                # Remove metadata
                 pdf.docinfo = {}
+
+                # Remove XMP metadata
+                try:
+                    pdf.Root.Metadata = None
+                except:
+                    pass
 
                 root = pdf.Root
 
+                # Remove redirect actions
                 if "/OpenAction" in root:
                     del root["/OpenAction"]
 
                 if "/AA" in root:
                     del root["/AA"]
 
-                # remove annotations safely
+                # Remove annotations / tracking links
                 for p in pdf.pages:
 
                     annots = p.get("/Annots")
@@ -105,10 +116,14 @@ for page in pages:
                             if "/A" in obj:
                                 del obj["/A"]
 
+                            if "/URI" in obj:
+                                del obj["/URI"]
+
                         except:
                             pass
 
-                pdf.save(save_path)
+                # Save clean PDF
+                pdf.save(save_path, linearize=True)
 
         finally:
 
