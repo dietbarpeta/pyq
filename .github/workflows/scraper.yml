@@ -2,8 +2,6 @@ name: Assam Deled Scraper
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 */6 * * *"
 
 jobs:
   scrape:
@@ -11,7 +9,7 @@ jobs:
 
     steps:
 
-    - name: Checkout
+    - name: Checkout Repository
       uses: actions/checkout@v4
 
     - name: Setup Python
@@ -19,10 +17,10 @@ jobs:
       with:
         python-version: "3.11"
 
-    - name: Install dependencies
+    - name: Install Dependencies
       run: pip install -r requirements.txt
 
-    - name: Run scraper
+    - name: Run Scraper
       run: python scraper.py
 
     - name: Commit PDFs
