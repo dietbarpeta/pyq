@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import os
-import pikepdf
+from pdf2image import convert_from_path
+from PIL import Image
 
 BASE = "https://www.assamboard.com"
 MAIN = "https://www.assamboard.com/assam-deled.html"
@@ -14,7 +15,6 @@ soup = BeautifulSoup(res.text, "html.parser")
 
 pages = []
 
-# collect paper pages
 for a in soup.find_all("a", href=True):
 
     href = a["href"]
@@ -69,47 +69,39 @@ for page in pages:
 
         data = requests.get(pdf_link, timeout=30).content
 
-        temp_file = "temp.pdf"
+        temp_pdf = "temp.pdf"
 
-        with open(temp_file, "wb") as f:
+        with open(temp_pdf, "wb") as f:
             f.write(data)
 
-        try:
+        print("Converting PDF → PNG")
 
-            # try cleaning PDF
-            with pikepdf.open(temp_file) as pdf:
+        images = convert_from_path(temp_pdf)
 
-                pdf.docinfo = {}
+        png_files = []
 
-                try:
-                    pdf.Root.Metadata = None
-                except:
-                    pass
+        for i, img in enumerate(images):
 
-                root = pdf.Root
+            png = f"temp_{i}.png"
+            img.save(png, "PNG")
+            png_files.append(png)
 
-                if "/OpenAction" in root:
-                    del root["/OpenAction"]
+        print("Converting PNG → PDF")
 
-                if "/AA" in root:
-                    del root["/AA"]
+        imgs = [Image.open(p).convert("RGB") for p in png_files]
 
-                for p in pdf.pages:
-                    if "/Annots" in p:
-                        del p["/Annots"]
+        imgs[0].save(
+            save_path,
+            save_all=True,
+            append_images=imgs[1:]
+        )
 
-                pdf.save(save_path, linearize=True)
+        os.remove(temp_pdf)
 
-        except Exception:
+        for p in png_files:
+            os.remove(p)
 
-            # fallback: save original pdf
-            print("Cleaner failed, saving original:", filename)
-
-            os.rename(temp_file, save_path)
-            temp_file = None
-
-        if temp_file and os.path.exists(temp_file):
-            os.remove(temp_file)
+        print("Saved:", save_path)
 
     except Exception as e:
 
