@@ -1,15 +1,40 @@
 import requests
 from bs4 import BeautifulSoup
 import os
+import json
 from pdf2image import convert_from_path
 from PIL import Image
+from concurrent.futures import ThreadPoolExecutor
 
 BASE = "https://www.assamboard.com"
 MAIN = "https://www.assamboard.com/assam-deled.html"
 
 ROOT_FOLDER = "pdf"
-os.makedirs(ROOT_FOLDER, exist_ok=True)
+API_FILE = "api/pdf.json"
 
+os.makedirs(ROOT_FOLDER, exist_ok=True)
+os.makedirs("api", exist_ok=True)
+
+# load existing api
+if os.path.exists(API_FILE):
+
+    with open(API_FILE, "r") as f:
+        api = json.load(f)
+
+else:
+
+    api = {"total":0,"years":{}}
+
+existing_files = set()
+
+for y in api["years"]:
+
+    for item in api["years"][y]:
+
+        existing_files.add(item["file"])
+
+
+# collect paper pages
 res = requests.get(MAIN)
 soup = BeautifulSoup(res.text, "html.parser")
 
@@ -28,19 +53,20 @@ for a in soup.find_all("a", href=True):
 
 pages = list(set(pages))
 
-print("Found pages:", len(pages))
+print("Found pages:",len(pages))
 
-for page in pages:
+
+def process(page):
 
     try:
 
-        r = requests.get(page, timeout=30)
-        soup = BeautifulSoup(r.text, "html.parser")
+        r = requests.get(page,timeout=30)
+        soup = BeautifulSoup(r.text,"html.parser")
 
-        pdf_tag = soup.find("a", id="pyq-hide-1s")
+        pdf_tag = soup.find("a",id="pyq-hide-1s")
 
         if not pdf_tag:
-            continue
+            return None
 
         pdf_link = pdf_tag["href"]
 
@@ -49,46 +75,46 @@ for page in pages:
 
         filename = pdf_link.split("/")[-1]
 
+        if filename in existing_files:
+
+            print("Skip duplicate:",filename)
+            return None
+
+
         parts = filename.split("-")
 
-        class_folder = f"{parts[0]}-{parts[1]}-{parts[2]}"
-        year = parts[-1].replace(".pdf", "")
+        class_name = f"{parts[0]}-{parts[1]}-{parts[2]}"
+        year = parts[-1].replace(".pdf","")
 
-        year_path = os.path.join(ROOT_FOLDER, year)
-        class_path = os.path.join(year_path, class_folder)
+        title = filename.replace(".pdf","").replace("-"," ").title()
 
-        os.makedirs(class_path, exist_ok=True)
+        year_path = os.path.join(ROOT_FOLDER,year)
+        class_path = os.path.join(year_path,class_name)
 
-        save_path = os.path.join(class_path, filename)
+        os.makedirs(class_path,exist_ok=True)
 
-        if os.path.exists(save_path):
-            print("Skip:", filename)
-            continue
+        save_path = os.path.join(class_path,filename)
 
-        print("Downloading:", filename)
+        print("Downloading:",filename)
 
-        data = requests.get(pdf_link, timeout=30).content
+        data = requests.get(pdf_link,timeout=30).content
 
         temp_pdf = "temp.pdf"
 
-        with open(temp_pdf, "wb") as f:
+        with open(temp_pdf,"wb") as f:
             f.write(data)
-
-        print("Converting PDF → PNG")
 
         images = convert_from_path(temp_pdf)
 
-        png_files = []
+        pngs = []
 
-        for i, img in enumerate(images):
+        for i,img in enumerate(images):
 
-            png = f"temp_{i}.png"
-            img.save(png, "PNG")
-            png_files.append(png)
+            p = f"temp_{i}.png"
+            img.save(p,"PNG")
+            pngs.append(p)
 
-        print("Converting PNG → PDF")
-
-        imgs = [Image.open(p).convert("RGB") for p in png_files]
+        imgs = [Image.open(p).convert("RGB") for p in pngs]
 
         imgs[0].save(
             save_path,
@@ -98,13 +124,55 @@ for page in pages:
 
         os.remove(temp_pdf)
 
-        for p in png_files:
+        for p in pngs:
             os.remove(p)
 
-        print("Saved:", save_path)
+        print("Saved:",filename)
+
+        return {
+            "year":year,
+            "data":{
+                "title":title,
+                "file":filename,
+                "class":class_name,
+                "url":save_path.replace("\\","/"),
+                "source":pdf_link
+            }
+        }
 
     except Exception as e:
 
-        print("Error:", page, e)
+        print("Error:",page,e)
+        return None
 
-print("Scraping completed.")
+
+new_items = []
+
+with ThreadPoolExecutor(max_workers=6) as executor:
+
+    results = executor.map(process,pages)
+
+    for r in results:
+        if r:
+            new_items.append(r)
+
+
+for item in new_items:
+
+    year = item["year"]
+
+    if year not in api["years"]:
+        api["years"][year] = []
+
+    api["years"][year].append(item["data"])
+
+
+api["total"] += len(new_items)
+
+
+with open(API_FILE,"w") as f:
+    json.dump(api,f,indent=2)
+
+
+print("Added:",len(new_items))
+print("Done")
