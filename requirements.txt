@@ -1,3 +1,4 @@
 requests
 beautifulsoup4
-pikepdf
+pdf2image
+pillow
