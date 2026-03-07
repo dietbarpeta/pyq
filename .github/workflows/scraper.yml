@@ -1,32 +1,39 @@
-name: Assam Deled Scraper
+name: Scrape PDF
 
 on:
   workflow_dispatch:
-
+  
 jobs:
-  scrape:
+  build:
     runs-on: ubuntu-latest
 
     steps:
 
-    - name: Checkout Repository
+    - name: Checkout repo
       uses: actions/checkout@v4
+
+    - name: Install poppler
+      run: |
+        sudo apt update
+        sudo apt install -y poppler-utils
 
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: "3.11"
 
-    - name: Install Dependencies
-      run: pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
 
-    - name: Run Scraper
-      run: python scraper.py
+    - name: Run scraper
+      run: |
+        python scraper.py
 
-    - name: Commit PDFs
+    - name: Commit files
       run: |
         git config --global user.name "github-actions"
         git config --global user.email "actions@github.com"
-        git add pdf
-        git commit -m "Update PDFs" || echo "No new PDFs"
+        git add .
+        git commit -m "Auto update PDFs" || echo "No changes"
         git push
