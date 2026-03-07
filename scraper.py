@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import json
+import uuid
 from pdf2image import convert_from_path
 from PIL import Image
 from concurrent.futures import ThreadPoolExecutor
@@ -15,7 +16,7 @@ API_FILE = "api/pdf.json"
 os.makedirs(ROOT_FOLDER, exist_ok=True)
 os.makedirs("api", exist_ok=True)
 
-# load existing api
+# Load existing API data
 if os.path.exists(API_FILE):
 
     with open(API_FILE, "r") as f:
@@ -23,18 +24,16 @@ if os.path.exists(API_FILE):
 
 else:
 
-    api = {"total":0,"years":{}}
+    api = {"total": 0, "years": {}}
 
 existing_files = set()
 
 for y in api["years"]:
-
     for item in api["years"][y]:
-
         existing_files.add(item["file"])
 
 
-# collect paper pages
+# Collect paper pages
 res = requests.get(MAIN)
 soup = BeautifulSoup(res.text, "html.parser")
 
@@ -53,17 +52,17 @@ for a in soup.find_all("a", href=True):
 
 pages = list(set(pages))
 
-print("Found pages:",len(pages))
+print("Found pages:", len(pages))
 
 
 def process(page):
 
     try:
 
-        r = requests.get(page,timeout=30)
-        soup = BeautifulSoup(r.text,"html.parser")
+        r = requests.get(page, timeout=30)
+        soup = BeautifulSoup(r.text, "html.parser")
 
-        pdf_tag = soup.find("a",id="pyq-hide-1s")
+        pdf_tag = soup.find("a", id="pyq-hide-1s")
 
         if not pdf_tag:
             return None
@@ -76,42 +75,41 @@ def process(page):
         filename = pdf_link.split("/")[-1]
 
         if filename in existing_files:
-
-            print("Skip duplicate:",filename)
+            print("Skip duplicate:", filename)
             return None
-
 
         parts = filename.split("-")
 
         class_name = f"{parts[0]}-{parts[1]}-{parts[2]}"
-        year = parts[-1].replace(".pdf","")
+        year = parts[-1].replace(".pdf", "")
 
-        title = filename.replace(".pdf","").replace("-"," ").title()
+        title = filename.replace(".pdf", "").replace("-", " ").title()
 
-        year_path = os.path.join(ROOT_FOLDER,year)
-        class_path = os.path.join(year_path,class_name)
+        year_path = os.path.join(ROOT_FOLDER, year)
+        class_path = os.path.join(year_path, class_name)
 
-        os.makedirs(class_path,exist_ok=True)
+        os.makedirs(class_path, exist_ok=True)
 
-        save_path = os.path.join(class_path,filename)
+        save_path = os.path.join(class_path, filename)
 
-        print("Downloading:",filename)
+        print("Downloading:", filename)
 
-        data = requests.get(pdf_link,timeout=30).content
+        data = requests.get(pdf_link, timeout=30).content
 
-        temp_pdf = "temp.pdf"
+        # Unique temp PDF
+        temp_pdf = f"temp_{uuid.uuid4().hex}.pdf"
 
-        with open(temp_pdf,"wb") as f:
+        with open(temp_pdf, "wb") as f:
             f.write(data)
 
         images = convert_from_path(temp_pdf)
 
         pngs = []
 
-        for i,img in enumerate(images):
+        for i, img in enumerate(images):
 
-            p = f"temp_{i}.png"
-            img.save(p,"PNG")
+            p = f"temp_{uuid.uuid4().hex}_{i}.png"
+            img.save(p, "PNG")
             pngs.append(p)
 
         imgs = [Image.open(p).convert("RGB") for p in pngs]
@@ -127,22 +125,22 @@ def process(page):
         for p in pngs:
             os.remove(p)
 
-        print("Saved:",filename)
+        print("Saved:", filename)
 
         return {
-            "year":year,
-            "data":{
-                "title":title,
-                "file":filename,
-                "class":class_name,
-                "url":save_path.replace("\\","/"),
-                "source":pdf_link
+            "year": year,
+            "data": {
+                "title": title,
+                "file": filename,
+                "class": class_name,
+                "url": save_path.replace("\\", "/"),
+                "source": pdf_link
             }
         }
 
     except Exception as e:
 
-        print("Error:",page,e)
+        print("Error:", page, e)
         return None
 
 
@@ -150,13 +148,14 @@ new_items = []
 
 with ThreadPoolExecutor(max_workers=6) as executor:
 
-    results = executor.map(process,pages)
+    results = executor.map(process, pages)
 
     for r in results:
         if r:
             new_items.append(r)
 
 
+# Update API
 for item in new_items:
 
     year = item["year"]
@@ -170,9 +169,9 @@ for item in new_items:
 api["total"] += len(new_items)
 
 
-with open(API_FILE,"w") as f:
-    json.dump(api,f,indent=2)
+with open(API_FILE, "w") as f:
+    json.dump(api, f, indent=2)
 
 
-print("Added:",len(new_items))
+print("Added:", len(new_items))
 print("Done")
