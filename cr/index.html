@@ -2,16 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Class Routine</title>
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+<!-- Responsive viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DELED Routine</title>
 
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -19,82 +23,87 @@
     font-family:'Poppins',sans-serif;
 }
 
+/* Background */
 body{
-    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    background: radial-gradient(circle at top,#1e3c4f,#0f2027);
     color:#fff;
-    padding:20px;
+    padding:10px;
 }
 
+/* Container */
 .container{
     max-width:1200px;
     margin:auto;
 }
 
-.title{
+/* Header */
+.header{
     text-align:center;
-    margin-bottom:20px;
+    margin-bottom:15px;
 }
 
-.title h1{
-    font-size:22px;
-    font-weight:600;
-    letter-spacing:1px;
+.header h2{
+    font-size:20px;
 }
 
-/* Table */
-.table-box{
-    overflow-x:auto;
-    border-radius:15px;
-    backdrop-filter: blur(12px);
-    background: rgba(255,255,255,0.05);
-    box-shadow:0 0 20px rgba(0,0,0,0.4);
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:900px;
-}
-
-th,td{
-    padding:14px;
-    text-align:center;
-    border-bottom:1px solid rgba(255,255,255,0.1);
-}
-
-th{
-    background:rgba(0,0,0,0.4);
-    font-size:14px;
-    letter-spacing:0.5px;
-}
-
-td{
-    font-size:13px;
-}
-
-/* Day column */
-.day{
-    font-weight:600;
+.header i{
     color:#00e6e6;
 }
 
-/* Hover effect */
-tr:hover{
-    background:rgba(255,255,255,0.08);
+/* Table box */
+.table-box{
+    overflow-x:auto;
+    border-radius:12px;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(15px);
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
 }
 
-/* Break column */
+/* Table */
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+/* Cells */
+th,td{
+    padding:10px;
+    text-align:center;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    font-size:13px;
+}
+
+/* Header */
+th{
+    background:rgba(0,0,0,0.4);
+}
+
+/* Day */
+.day{
+    color:#00e6e6;
+    font-weight:600;
+}
+
+/* Break */
 .break{
     background:rgba(255,255,255,0.08);
     font-weight:500;
 }
 
-/* Mobile */
+/* Hover */
+tr:hover{
+    background:rgba(0,255,255,0.08);
+}
+
+/* Mobile responsive */
 @media(max-width:768px){
-    .title h1{
-        font-size:18px;
+    th,td{
+        font-size:11px;
+        padding:6px;
     }
 }
+
 </style>
 </head>
 
@@ -102,75 +111,79 @@ tr:hover{
 
 <div class="container">
 
-    <div class="title">
-        <h1><i class="fa-solid fa-calendar-days"></i> Daily Class Routine</h1>
-        <p>B.Ed & D.El.Ed 2nd & 4th Semester</p>
-    </div>
+<div class="header">
+<h2><i class="fa-solid fa-calendar-days"></i> DELED 2nd Semester Routine</h2>
+</div>
 
-    <div class="table-box">
-        <table>
-            <thead>
-                <tr>
-                    <th>Day</th>
-                    <th>10:30 - 11:30</th>
-                    <th>11:30 - 12:30</th>
-                    <th>Break</th>
-                    <th>01:00 - 02:00</th>
-                    <th>02:00 - 03:00</th>
-                </tr>
-            </thead>
+<div class="table-box">
 
-            <tbody>
-                <tr>
-                    <td class="day">Monday</td>
-                    <td>S2.1 (ECISA) - S. Das</td>
-                    <td>S2.3 (PES) - B. Roy</td>
-                    <td class="break" rowspan="6">Lunch Break</td>
-                    <td>S2.4 (MIL-I) - K. Das</td>
-                    <td>S2.2 (USEC) - S. Chutia</td>
-                </tr>
+<table>
 
-                <tr>
-                    <td class="day">Tuesday</td>
-                    <td>S2.6 (ICT-II) - P.K. Roy</td>
-                    <td>S2.2 (USEC) - K.P. Roy</td>
-                    <td>S2.1 (ECISA) - J.C. Phukan</td>
-                    <td>S2.4 (MIL-I) - P. Mazuder</td>
-                </tr>
+<thead>
+<tr>
+<th>Day</th>
+<th>10:30 - 11:30</th>
+<th>11:30 - 12:30</th>
+<th><i class="fa-solid fa-mug-hot"></i></th>
+<th>01:00 - 02:00</th>
+<th>02:00 - 03:00</th>
+</tr>
+</thead>
 
-                <tr>
-                    <td class="day">Wednesday</td>
-                    <td>S2.3 (PES) - B. Roy</td>
-                    <td>S2.6 (ICT-II) - P.K. Roy</td>
-                    <td>S2.5 (PE-II)</td>
-                    <td>S2.1 (ECISSA) - A. Hossain</td>
-                </tr>
+<tbody>
 
-                <tr>
-                    <td class="day">Thursday</td>
-                    <td>S2.4 (MIL-I) - K. Das</td>
-                    <td>S2.1 (ECISA) - K.P. Roy</td>
-                    <td>S2.5 (PE-II) - M. Bhaumik</td>
-                    <td>S2.2 (USEC) - S. Chutia</td>
-                </tr>
+<tr>
+<td class="day">Monday</td>
+<td>S2.1 (ECISA)<br>S. Das</td>
+<td>S2.3 (PES)<br>B. Roy</td>
+<td rowspan="6" class="break">Lunch</td>
+<td>S2.4 (MIL-I)<br>K. Das</td>
+<td>S2.2 (USEC)<br>S. Chutia</td>
+</tr>
 
-                <tr>
-                    <td class="day">Friday</td>
-                    <td>S2.2 (USEC) - S. Chutia</td>
-                    <td>S2.6 (ICT-II) - P.K. Roy</td>
-                    <td>S2.3 (PES) - M. Choudhury</td>
-                    <td>S2.5 (PE-II) - M. Bhaumik</td>
-                </tr>
+<tr>
+<td class="day">Tuesday</td>
+<td>S2.6 (ICT-II)<br>P.K. Roy</td>
+<td>S2.2 (USEC)<br>K.P. Roy</td>
+<td>S2.1 (ECISA)<br>J.C. Phukan</td>
+<td>S2.4 (MIL-I)<br>P. Mazuder</td>
+</tr>
 
-                <tr>
-                    <td class="day">Saturday</td>
-                    <td colspan="2">Co-Curricular Activities - L. Gogoi</td>
-                    <td colspan="2">SIP PD, PKR, KD</td>
-                </tr>
+<tr>
+<td class="day">Wednesday</td>
+<td>S2.3 (PES)<br>B. Roy</td>
+<td>S2.6 (ICT-II)<br>P.K. Roy</td>
+<td>S2.5 (PE-II)<br>P.P.M</td>
+<td>S2.1 (ECISSA)<br>A. Hossain</td>
+</tr>
 
-            </tbody>
-        </table>
-    </div>
+<tr>
+<td class="day">Thursday</td>
+<td>S2.4 (MIL-I)<br>K. Das</td>
+<td>S2.1 (ECISA)<br>K.P. Roy</td>
+<td>S2.5 (PE-II)<br>M. Bhaumik</td>
+<td>S2.2 (USEC)<br>S. Chutia</td>
+</tr>
+
+<tr>
+<td class="day">Friday</td>
+<td>S2.2 (USEC)<br>S. Chutia</td>
+<td>S2.6 (ICT-II)<br>P.K. Roy</td>
+<td>S2.3 (PES)<br>M. Choudhury</td>
+<td>S2.5 (PE-II)<br>M. Bhaumik</td>
+</tr>
+
+<tr>
+<td class="day">Saturday</td>
+<td colspan="2"><i class="fa-solid fa-users"></i><br>Co-Curricular<br>L. Gogoi</td>
+<td colspan="2"><i class="fa-solid fa-briefcase"></i><br>SIP<br>PD, PKR, KD</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
 
 </div>
 
