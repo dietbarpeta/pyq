@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Routine</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:#fff;
+    padding:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.title h1{
+    font-size:22px;
+    font-weight:600;
+    letter-spacing:1px;
+}
+
+/* Table */
+.table-box{
+    overflow-x:auto;
+    border-radius:15px;
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.05);
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+th,td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+th{
+    background:rgba(0,0,0,0.4);
+    font-size:14px;
+    letter-spacing:0.5px;
+}
+
+td{
+    font-size:13px;
+}
+
+/* Day column */
+.day{
+    font-weight:600;
+    color:#00e6e6;
+}
+
+/* Hover effect */
+tr:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+/* Break column */
+.break{
+    background:rgba(255,255,255,0.08);
+    font-weight:500;
+}
+
+/* Mobile */
+@media(max-width:768px){
+    .title h1{
+        font-size:18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="title">
+        <h1><i class="fa-solid fa-calendar-days"></i> Daily Class Routine</h1>
+        <p>B.Ed & D.El.Ed 2nd & 4th Semester</p>
+    </div>
+
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>10:30 - 11:30</th>
+                    <th>11:30 - 12:30</th>
+                    <th>Break</th>
+                    <th>01:00 - 02:00</th>
+                    <th>02:00 - 03:00</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="day">Monday</td>
+                    <td>S2.1 (ECISA) - S. Das</td>
+                    <td>S2.3 (PES) - B. Roy</td>
+                    <td class="break" rowspan="6">Lunch Break</td>
+                    <td>S2.4 (MIL-I) - K. Das</td>
+                    <td>S2.2 (USEC) - S. Chutia</td>
+                </tr>
+
+                <tr>
+                    <td class="day">Tuesday</td>
+                    <td>S2.6 (ICT-II) - P.K. Roy</td>
+                    <td>S2.2 (USEC) - K.P. Roy</td>
+                    <td>S2.1 (ECISA) - J.C. Phukan</td>
+                    <td>S2.4 (MIL-I) - P. Mazuder</td>
+                </tr>
+
+                <tr>
+                    <td class="day">Wednesday</td>
+                    <td>S2.3 (PES) - B. Roy</td>
+                    <td>S2.6 (ICT-II) - P.K. Roy</td>
+                    <td>S2.5 (PE-II)</td>
+                    <td>S2.1 (ECISSA) - A. Hossain</td>
+                </tr>
+
+                <tr>
+                    <td class="day">Thursday</td>
+                    <td>S2.4 (MIL-I) - K. Das</td>
+                    <td>S2.1 (ECISA) - K.P. Roy</td>
+                    <td>S2.5 (PE-II) - M. Bhaumik</td>
+                    <td>S2.2 (USEC) - S. Chutia</td>
+                </tr>
+
+                <tr>
+                    <td class="day">Friday</td>
+                    <td>S2.2 (USEC) - S. Chutia</td>
+                    <td>S2.6 (ICT-II) - P.K. Roy</td>
+                    <td>S2.3 (PES) - M. Choudhury</td>
+                    <td>S2.5 (PE-II) - M. Bhaumik</td>
+                </tr>
+
+                <tr>
+                    <td class="day">Saturday</td>
+                    <td colspan="2">Co-Curricular Activities - L. Gogoi</td>
+                    <td colspan="2">SIP PD, PKR, KD</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
