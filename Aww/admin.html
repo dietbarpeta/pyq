@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* Base */
+body {
+  margin: 0;
+  font-family: Poppins;
+  background: linear-gradient(135deg,#eef2ff,#e0f2fe);
+}
+
+/* Header */
+.header {
+  height: 60px;
+  background: linear-gradient(135deg,#d2554f,#ef4444);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  font-size: 18px;
+}
+
+/* Section */
+.section {
+  padding: 15px;
+}
+
+/* Card */
+.card {
+  background: rgba(255,255,255,0.8);
+  border-radius: 18px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Input */
+.input {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 30px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+}
+
+.input i {
+  margin-right: 10px;
+  color: #888;
+}
+
+.input input,
+.input select {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 30px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.green { background: #22c55e; }
+.red { background: #ef4444; }
+.blue { background: #3b82f6; }
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+/* Category Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 10px;
+}
+
+/* Category Card */
+.cat-card {
+  padding: 15px;
+  border-radius: 18px;
+  color: white;
+  position: relative;
+}
+
+.cat-card:nth-child(3n+1){background:#f59e0b;}
+.cat-card:nth-child(3n+2){background:#3b82f6;}
+.cat-card:nth-child(3n+3){background:#10b981;}
+
+.delete {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  cursor: pointer;
+}
+
+/* Profile */
+.profile {
+  background: white;
+  padding: 14px;
+  border-radius: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+/* Category Colors */
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.badge.pregnant {
+  background: #fde68a;
+  color: #92400e;
+}
+
+.badge.lactating {
+  background: #bfdbfe;
+  color: #1e3a8a;
+}
+
+.badge.children {
+  background: #bbf7d0;
+  color: #065f46;
+}
+
+/* JSON */
+textarea {
+  width: 100%;
+  height: 120px;
+  border-radius: 10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+  <i class="fa fa-arrow-left" onclick="history.back()"></i>
+  <span style="margin-left:10px;">Admin Panel</span>
+</div>
+
+<div class="section">
+
+<!-- Actions -->
+<div class="card">
+  <button class="btn green" onclick="loadData()">Load Data</button>
+  <button class="btn red" onclick="clearData()">Clear</button>
+  <button class="btn blue" onclick="copyJSON()">Copy JSON</button>
+</div>
+
+<!-- Add Category -->
+<div class="card">
+  <h3>Add Category</h3>
+
+  <div class="input">
+    <i class="fa fa-tag"></i>
+    <input id="catTitle" placeholder="Category Title">
+  </div>
+
+  <div class="input">
+    <i class="fa fa-image"></i>
+    <input id="catImg" placeholder="Image URL">
+  </div>
+
+  <button class="btn green" onclick="addCategory()">Add Category</button>
+</div>
+
+<!-- Category List -->
+<div class="grid" id="catList"></div>
+
+<!-- Add Profile -->
+<div class="card">
+  <h3>Add Profile</h3>
+
+  <div class="input">
+    <i class="fa fa-list"></i>
+    <select id="pCat"></select>
+  </div>
+
+  <div class="input">
+    <i class="fa fa-user"></i>
+    <input id="pName" placeholder="Name">
+  </div>
+
+  <div class="input">
+    <i class="fa fa-user"></i>
+    <input id="pMother" placeholder="Mother">
+  </div>
+
+  <div class="input">
+    <i class="fa fa-user-tie"></i>
+    <input id="pFather" placeholder="Father/Husband">
+  </div>
+
+  <div class="input">
+    <i class="fa fa-video"></i>
+    <input id="pVideo" placeholder="Video URL">
+  </div>
+
+  <button class="btn green" onclick="addProfile()">Add Profile</button>
+</div>
+
+<!-- Profiles -->
+<div id="profileList"></div>
+
+<!-- JSON -->
+<div class="card">
+  <h3>JSON Output</h3>
+  <textarea id="output"></textarea>
+</div>
+
+</div>
+
+<script>
+
+let db = { categories: [], profiles: [] };
+
+// Load local
+if(localStorage.getItem("db")){
+  db = JSON.parse(localStorage.getItem("db"));
+  render();
+}
+
+function loadData(){
+  fetch("data.json")
+  .then(r=>r.json())
+  .then(data=>{
+    db = data;
+    save();
+  });
+}
+
+function save(){
+  localStorage.setItem("db", JSON.stringify(db));
+  render();
+}
+
+function clearData(){
+  localStorage.removeItem("db");
+  db = { categories: [], profiles: [] };
+  render();
+}
+
+// Auto ID
+function generateCatId(){
+  return ["pregnant","lactating","children"][db.categories.length] || "cat"+Date.now();
+}
+
+// Add Category
+function addCategory(){
+  db.categories.push({
+    id: generateCatId(),
+    title: catTitle.value,
+    image: catImg.value
+  });
+  save();
+}
+
+// Add Profile
+function addProfile(){
+  db.profiles.push({
+    id: Date.now(),
+    category: pCat.value,
+    name: pName.value,
+    mother: pMother.value,
+    father: pFather.value,
+    video: pVideo.value
+  });
+  save();
+}
+
+// Delete
+function delCat(i){
+  db.categories.splice(i,1);
+  save();
+}
+
+function delProfile(i){
+  db.profiles.splice(i,1);
+  save();
+}
+
+// Render
+function render(){
+
+  // Categories
+  catList.innerHTML = db.categories.map((c,i)=>`
+    <div class="cat-card">
+      <span class="delete" onclick="delCat(${i})">✖</span>
+      <h4>${c.title}</h4>
+      <div>${c.id}</div>
+    </div>
+  `).join("");
+
+  // Dropdown
+  pCat.innerHTML = db.categories.map(c=>`
+    <option value="${c.id}">${c.title}</option>
+  `).join("");
+
+  // Profiles
+  profileList.innerHTML = db.profiles.map((p,i)=>`
+    <div class="profile">
+      <div>
+        <strong>${p.name}</strong>
+        <div style="font-size:12px;color:#555">${p.category}</div>
+      </div>
+
+      <div>
+        <span class="badge ${p.category}">
+          ${p.category}
+        </span>
+        <span onclick="delProfile(${i})" style="color:red;margin-left:8px;">✖</span>
+      </div>
+    </div>
+  `).join("");
+
+  output.value = JSON.stringify(db, null, 2);
+}
+
+// Copy
+function copyJSON(){
+  navigator.clipboard.writeText(output.value);
+  alert("Copied!");
+}
+
+</script>
+
+</body>
+</html>

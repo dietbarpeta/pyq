@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profiles</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+body {
+  margin: 0;
+  font-family: Poppins;
+  background: #f4f6f9;
+}
+
+/* Header */
+.header {
+  height: 60px;
+  background: #d2554f;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  font-size: 18px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header i {
+  margin-right: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.header i:active {
+  transform: scale(0.85);
+}
+
+/* Search */
+.search-box { padding: 15px; }
+
+.search {
+  background: #fff;
+  border-radius: 30px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.search i {
+  margin-right: 10px;
+  color: #888;
+}
+
+.search input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+/* Total */
+.total {
+  margin: 0 15px;
+  display: inline-block;
+  background: #d2554f;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+/* List */
+.list { padding: 10px; }
+
+/* Item */
+.item {
+  background: #fff;
+  border-radius: 15px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.item:active {
+  transform: scale(0.97);
+}
+
+/* Image */
+.item img {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+/* Info */
+.info h4 {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* Badges */
+.badges {
+  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.badge {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mother { background: #fce7f3; color: #be185d; }
+.father { background: #e0f2fe; color: #0369a1; }
+.husband { background: #ecfccb; color: #4d7c0f; }
+.verified { background: #dcfce7; color: #15803d; }
+
+/* Player */
+.player-full {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: none;
+  z-index: 999;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.player-full.show {
+  display: block;
+  opacity: 1;
+}
+
+.player-full iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Close */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  color: white;
+  font-size: 20px;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: white;
+  transform: translate(-50%,-50%);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+  <i class="fa fa-arrow-left" onclick="goBack()"></i>
+  <span id="title"></span>
+</div>
+
+<div class="search-box">
+  <div class="search">
+    <i class="fa fa-search"></i>
+    <input type="text" id="search" placeholder="Search...">
+  </div>
+</div>
+
+<div style="padding:0 15px;">
+  <span class="total" id="total">Total: 0</span>
+</div>
+
+<div class="list" id="list"></div>
+
+<!-- Player -->
+<div class="player-full" id="playerFull">
+  <div class="close-btn" onclick="closePlayer()">
+    <i class="fa fa-arrow-left"></i>
+  </div>
+  <div class="loader" id="loader">Loading...</div>
+  <iframe id="playerFrame" allowfullscreen></iframe>
+</div>
+
+<script>
+
+//  SMART BACK FIX
+function goBack(){
+  window.location.replace(document.referrer || "index.html");
+}
+
+const params = new URLSearchParams(location.search);
+const category = params.get("category");
+
+title.innerText = category.toUpperCase();
+
+let allData = [];
+
+fetch("data.json")
+.then(res=>res.json())
+.then(data=>{
+  allData = data.profiles
+    .filter(d=>d.category===category)
+    .sort((a,b)=>a.name.localeCompare(b.name));
+  render(allData);
+});
+
+function render(data){
+
+  total.innerText = "Total: " + data.length;
+
+  if(data.length === 0){
+    list.innerHTML = `<div style="text-align:center">No data</div>`;
+    return;
+  }
+
+  let html = "";
+
+  data.forEach(d=>{
+
+    let id = getId(d.video);
+    let thumb = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+
+    let badges = category==="children"
+      ? `<div class="badge mother"><i class="fa fa-user"></i>${d.mother}</div>
+         <div class="badge father"><i class="fa fa-user-tie"></i>${d.father}</div>`
+      : `<div class="badge husband"><i class="fa fa-user"></i>${d.father}</div>`;
+
+    badges += `<div class="badge verified"><i class="fa fa-check-circle"></i>Verified</div>`;
+
+    html += `
+    <div class="item" onclick="playVideo('${d.video}')">
+      <img src="${thumb}">
+      <div class="info">
+        <h4>${d.name}</h4>
+        <div class="badges">${badges}</div>
+      </div>
+    </div>
+    `;
+  });
+
+  list.innerHTML = html;
+}
+
+function getId(url){
+  return url.includes("v=")
+    ? url.split("v=")[1].split("&")[0]
+    : url.split("youtu.be/")[1];
+}
+
+function playVideo(url){
+  let id = getId(url);
+
+  playerFull.classList.add("show");
+  loader.style.display = "block";
+
+  playerFrame.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+
+  playerFrame.onload = () => {
+    loader.style.display = "none";
+  };
+}
+
+function closePlayer(){
+  playerFull.classList.remove("show");
+  setTimeout(()=> playerFrame.src="",300);
+}
+
+// Search
+search.addEventListener("input", function(){
+  let val = this.value.toLowerCase();
+  render(allData.filter(d=>d.name.toLowerCase().includes(val)));
+});
+
+</script>
+
+</body>
+</html>
