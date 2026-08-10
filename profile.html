@@ -66,13 +66,13 @@ align-items:center;
 
 justify-content:center;
 
-padding:20px;
+padding:12px;
 
 }
 
 
 /* =========================
-   PROFILE
+   PROFILE CARD
 ========================= */
 
 .profile{
@@ -159,6 +159,7 @@ right:-40px;
 
 }
 
+
 .cover::after{
 
 content:"";
@@ -220,6 +221,8 @@ box-shadow:
 }
 
 
+/* Profile Image */
+
 .avatar img{
 
 width:100%;
@@ -234,7 +237,7 @@ display:block;
 
 
 /* =========================
-   FALLBACK ICON
+   FALLBACK PROFILE ICON
 ========================= */
 
 .profile-fallback{
@@ -255,7 +258,7 @@ display:none;
 .content{
 
 padding:
-65px 24px 25px;
+62px 22px 20px;
 
 text-align:center;
 
@@ -274,7 +277,7 @@ font-weight:700;
 
 letter-spacing:.2px;
 
-margin-bottom:5px;
+margin-bottom:4px;
 
 }
 
@@ -289,7 +292,7 @@ font-size:14px;
 
 color:#94a3b8;
 
-margin-bottom:16px;
+margin-bottom:13px;
 
 }
 
@@ -306,7 +309,7 @@ align-items:center;
 
 gap:5px;
 
-font-size:12px;
+font-size:11px;
 
 padding:5px 10px;
 
@@ -319,7 +322,7 @@ border:
 
 color:#60a5fa;
 
-margin-bottom:18px;
+margin-bottom:15px;
 
 }
 
@@ -332,11 +335,11 @@ margin-bottom:18px;
 
 font-size:13px;
 
-line-height:1.7;
+line-height:1.6;
 
 color:#cbd5e1;
 
-margin-bottom:22px;
+margin-bottom:18px;
 
 }
 
@@ -352,9 +355,9 @@ display:grid;
 grid-template-columns:
 repeat(3,1fr);
 
-gap:10px;
+gap:8px;
 
-margin-bottom:22px;
+margin-bottom:16px;
 
 }
 
@@ -366,9 +369,9 @@ background:#1e293b;
 border:
 1px solid #334155;
 
-border-radius:14px;
+border-radius:12px;
 
-padding:12px 5px;
+padding:9px 5px;
 
 }
 
@@ -377,144 +380,29 @@ padding:12px 5px;
 
 display:block;
 
-font-size:17px;
+font-size:15px;
 
 color:#fff;
 
-margin-bottom:3px;
+margin-bottom:2px;
 
 }
 
 
 .stat span{
 
-font-size:11px;
-
-color:#94a3b8;
-
-}
-
-
-/* =========================
-   VISITOR COUNTER
-========================= */
-
-.visitor-counter{
-
-display:grid;
-
-grid-template-columns:
-repeat(2,1fr);
-
-gap:10px;
-
-margin-bottom:22px;
-
-}
-
-
-.visitor-box{
-
-background:
-linear-gradient(
-145deg,
-#1e293b,
-#172033
-);
-
-border:
-1px solid #334155;
-
-border-radius:14px;
-
-padding:13px 8px;
-
-text-align:center;
-
-transition:.25s;
-
-}
-
-
-.visitor-box:hover{
-
-transform:
-translateY(-3px);
-
-border-color:#475569;
-
-box-shadow:
-0 8px 20px rgba(0,0,0,.25);
-
-}
-
-
-.visitor-icon{
-
-width:32px;
-
-height:32px;
-
-margin:0 auto 7px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-border-radius:50%;
-
-background:#3b82f620;
-
-color:#60a5fa;
-
-font-size:14px;
-
-}
-
-
-.visitor-number{
-
-display:block;
-
-font-size:19px;
-
-font-weight:700;
-
-color:#fff;
-
-line-height:1.2;
-
-}
-
-
-.visitor-label{
-
-display:block;
-
 font-size:10px;
 
 color:#94a3b8;
 
-margin-top:4px;
-
 }
 
 
-/* =========================
-   COUNTER STATUS
-========================= */
+/* =====================================================
+   MINI VISITOR COUNTER
+===================================================== */
 
-.counter-status{
-
-font-size:9px;
-
-color:#475569;
-
-margin-top:-15px;
-
-margin-bottom:20px;
+.visitor-counter{
 
 display:flex;
 
@@ -522,20 +410,102 @@ align-items:center;
 
 justify-content:center;
 
-gap:5px;
+width:max-content;
+
+max-width:100%;
+
+margin:
+0 auto 17px;
+
+padding:
+6px 12px;
+
+background:#1e293b;
+
+border:
+1px solid #334155;
+
+border-radius:30px;
+
+gap:11px;
 
 }
 
 
-.counter-status-dot{
+/* Counter item */
 
-width:5px;
+.visitor-item{
 
-height:5px;
+display:flex;
 
-border-radius:50%;
+align-items:center;
 
-background:#22c55e;
+gap:6px;
+
+color:#94a3b8;
+
+}
+
+
+/* Icon */
+
+.visitor-item > i{
+
+font-size:11px;
+
+color:#60a5fa;
+
+}
+
+
+/* Number + label */
+
+.visitor-item span{
+
+display:flex;
+
+align-items:baseline;
+
+gap:4px;
+
+}
+
+
+/* Number */
+
+.visitor-item b{
+
+font-size:12px;
+
+font-weight:650;
+
+color:#fff;
+
+line-height:1;
+
+}
+
+
+/* Label */
+
+.visitor-item small{
+
+font-size:9px;
+
+color:#64748b;
+
+}
+
+
+/* Divider */
+
+.visitor-divider{
+
+width:1px;
+
+height:15px;
+
+background:#475569;
 
 }
 
@@ -550,18 +520,18 @@ display:flex;
 
 justify-content:center;
 
-gap:10px;
+gap:9px;
 
-margin-bottom:22px;
+margin-bottom:17px;
 
 }
 
 
 .social a{
 
-width:42px;
+width:40px;
 
-height:42px;
+height:40px;
 
 display:flex;
 
@@ -580,7 +550,7 @@ color:#cbd5e1;
 
 text-decoration:none;
 
-font-size:17px;
+font-size:16px;
 
 transition:.25s;
 
@@ -590,7 +560,7 @@ transition:.25s;
 .social a:hover{
 
 transform:
-translateY(-4px);
+translateY(-3px);
 
 background:#334155;
 
@@ -615,9 +585,9 @@ gap:8px;
 
 width:100%;
 
-padding:11px;
+padding:10px;
 
-border-radius:12px;
+border-radius:11px;
 
 background:#3b82f6;
 
@@ -625,7 +595,7 @@ color:white;
 
 text-decoration:none;
 
-font-size:14px;
+font-size:13px;
 
 font-weight:600;
 
@@ -650,14 +620,14 @@ translateY(-2px);
 
 .profile-footer{
 
-margin-top:20px;
+margin-top:16px;
 
-padding-top:18px;
+padding-top:14px;
 
 border-top:
 1px solid #1e293b;
 
-font-size:11px;
+font-size:10px;
 
 color:#64748b;
 
@@ -679,9 +649,10 @@ color:#94a3b8;
 
 body{
 
-padding:10px;
+padding:8px;
 
 }
+
 
 .profile{
 
@@ -689,13 +660,14 @@ border-radius:20px;
 
 }
 
+
 .content{
 
-padding-left:18px;
-
-padding-right:18px;
+padding:
+60px 16px 17px;
 
 }
+
 
 .name{
 
@@ -703,15 +675,81 @@ font-size:22px;
 
 }
 
+
+.role{
+
+font-size:13px;
+
+}
+
+
+.bio{
+
+font-size:12px;
+
+line-height:1.55;
+
+}
+
+
 .stats{
 
 gap:6px;
 
 }
 
+
+.stat{
+
+padding:
+8px 4px;
+
+}
+
+
+.stat strong{
+
+font-size:14px;
+
+}
+
+
+.stat span{
+
+font-size:9px;
+
+}
+
+
 .visitor-counter{
 
-gap:7px;
+padding:
+5px 10px;
+
+gap:9px;
+
+margin-bottom:15px;
+
+}
+
+
+.visitor-item b{
+
+font-size:11px;
+
+}
+
+
+.visitor-item small{
+
+font-size:8px;
+
+}
+
+
+.social{
+
+margin-bottom:15px;
 
 }
 
@@ -754,19 +792,23 @@ scale(1);
 <body>
 
 
+<!-- =========================
+     PROFILE
+========================= -->
+
 <div class="profile">
 
 
-<!-- =====================
+<!-- =========================
      COVER
-===================== -->
+========================= -->
 
 <div class="cover">
 
 
-<!-- =====================
+<!-- =========================
      PROFILE IMAGE
-===================== -->
+========================= -->
 
 <div class="avatar">
 
@@ -786,22 +828,34 @@ id="profileFallback"
 </div>
 
 
-<!-- =====================
+<!-- =========================
      CONTENT
-===================== -->
+========================= -->
 
 <div class="content">
 
+
+<!-- =========================
+     NAME
+========================= -->
 
 <h1 class="name">
 Shajidul Ahmed
 </h1>
 
 
+<!-- =========================
+     ROLE
+========================= -->
+
 <div class="role">
 Developer • Designer • Creator
 </div>
 
+
+<!-- =========================
+     VERIFIED
+========================= -->
 
 <div class="verified">
 
@@ -811,6 +865,10 @@ Official Profile
 
 </div>
 
+
+<!-- =========================
+     BIO
+========================= -->
 
 <p class="bio">
 
@@ -823,9 +881,9 @@ simple and accessible way.
 </p>
 
 
-<!-- =====================
+<!-- =========================
      STATS
-===================== -->
+========================= -->
 
 <div class="stats">
 
@@ -860,56 +918,55 @@ simple and accessible way.
 </div>
 
 
-<!-- =====================
-     VISITOR COUNTER
-===================== -->
+<!-- =================================================
+     MINI VISITOR COUNTER
+================================================= -->
 
 <div class="visitor-counter">
 
 
-<!-- TOTAL VISITS -->
+<!-- TOTAL -->
 
-<div class="visitor-box">
-
-<div class="visitor-icon">
+<div class="visitor-item">
 
 <i class="fa-solid fa-eye"></i>
 
-</div>
+<span>
 
-<strong
-class="visitor-number"
-id="totalVisits"
->
+<b id="totalVisits">
 —
-</strong>
+</b>
 
-<span class="visitor-label">
-Total Visits
+<small>
+Visits
+</small>
+
 </span>
 
 </div>
 
 
-<!-- UNIQUE VISITORS -->
+<!-- DIVIDER -->
 
-<div class="visitor-box">
+<div class="visitor-divider"></div>
 
-<div class="visitor-icon">
+
+<!-- UNIQUE -->
+
+<div class="visitor-item">
 
 <i class="fa-solid fa-user-check"></i>
 
-</div>
+<span>
 
-<strong
-class="visitor-number"
-id="uniqueVisitors"
->
+<b id="uniqueVisitors">
 —
-</strong>
+</b>
 
-<span class="visitor-label">
-Unique Visitors
+<small>
+Unique
+</small>
+
 </span>
 
 </div>
@@ -918,21 +975,14 @@ Unique Visitors
 </div>
 
 
-<div class="counter-status">
-
-<span class="counter-status-dot"></span>
-
-Live Visitor Counter
-
-</div>
-
-
-<!-- =====================
+<!-- =========================
      SOCIAL LINKS
-===================== -->
+========================= -->
 
 <div class="social">
 
+
+<!-- Facebook -->
 
 <a
 href="https://fb.me/shajidulahmed"
@@ -946,6 +996,8 @@ rel="noopener"
 </a>
 
 
+<!-- Telegram -->
+
 <a
 href="#"
 aria-label="Telegram"
@@ -955,6 +1007,8 @@ aria-label="Telegram"
 
 </a>
 
+
+<!-- Instagram -->
 
 <a
 href="https://instagram.com/shajidulahmed"
@@ -971,9 +1025,9 @@ rel="noopener"
 </div>
 
 
-<!-- =====================
+<!-- =========================
      WEBSITE
-===================== -->
+========================= -->
 
 <a
 href="https://www.sidlibrary.in/?m=1"
@@ -989,9 +1043,9 @@ Visit Website
 </a>
 
 
-<!-- =====================
+<!-- =========================
      FOOTER
-===================== -->
+========================= -->
 
 <div class="profile-footer">
 
@@ -1006,39 +1060,59 @@ Powered by
 </div>
 
 
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
 <script>
+
 
 /* =====================================================
    PROFILE IMAGE FALLBACK
 ===================================================== */
 
 const profileImage =
-document.getElementById("profileImage");
+document.getElementById(
+"profileImage"
+);
+
 
 const profileFallback =
-document.getElementById("profileFallback");
+document.getElementById(
+"profileFallback"
+);
 
+
+/* Image load error */
 
 profileImage.addEventListener(
 "error",
 function(){
 
-profileImage.style.display="none";
+profileImage.style.display =
+"none";
 
-profileFallback.style.display="block";
+profileFallback.style.display =
+"block";
 
-});
+}
+);
 
+
+/* Image successfully loaded */
 
 profileImage.addEventListener(
 "load",
 function(){
 
-profileImage.style.display="block";
+profileImage.style.display =
+"block";
 
-profileFallback.style.display="none";
+profileFallback.style.display =
+"none";
 
-});
+}
+);
 
 
 /* =====================================================
@@ -1049,30 +1123,31 @@ const HIT_API =
 "https://sattrish-hit-counters.vercel.app/api/hit?key=diet";
 
 
-const GET_API =
-"https://sattrish-hit-counters.vercel.app/api/get?key=diet";
-
-
 const totalVisits =
-document.getElementById("totalVisits");
+document.getElementById(
+"totalVisits"
+);
 
 
 const uniqueVisitors =
-document.getElementById("uniqueVisitors");
+document.getElementById(
+"uniqueVisitors"
+);
 
 
-/*
-   Profile page load হলে
-   প্রথমে HIT API call হবে।
-
-   API response-এই total এবং unique
-   পাওয়া যায়, তাই আলাদা GET call
-   করার প্রয়োজন নেই।
-*/
+/* =====================================================
+   UPDATE VISITOR COUNTER
+===================================================== */
 
 async function updateVisitorCounter(){
 
 try{
+
+
+/*
+   Profile load হলে
+   Hit API-তে request যাবে।
+*/
 
 const response =
 await fetch(
@@ -1084,20 +1159,31 @@ cache:"no-store"
 );
 
 
+/*
+   API response ঠিক না হলে
+   error তৈরি হবে।
+*/
+
 if(!response.ok){
 
 throw new Error(
-"Counter API error"
+"Visitor Counter API Error"
 );
 
 }
 
 
+/*
+   JSON data
+*/
+
 const data =
 await response.json();
 
 
-/* Total visits */
+/*
+   Total Visits
+*/
 
 totalVisits.textContent =
 data.total_formatted ??
@@ -1105,7 +1191,9 @@ data.total ??
 "—";
 
 
-/* Unique visitors */
+/*
+   Unique Visitors
+*/
 
 uniqueVisitors.textContent =
 data.unique_formatted ??
@@ -1115,6 +1203,7 @@ data.unique ??
 
 }catch(error){
 
+
 console.error(
 "Visitor counter error:",
 error
@@ -1122,13 +1211,16 @@ error
 
 
 /*
-   API কাজ না করলে
-   counter ভেঙে যাবে না।
+   API unavailable হলে
+   profile page ঠিক থাকবে।
 */
 
-totalVisits.textContent="—";
+totalVisits.textContent =
+"—";
 
-uniqueVisitors.textContent="—";
+uniqueVisitors.textContent =
+"—";
+
 
 }
 
@@ -1136,10 +1228,12 @@ uniqueVisitors.textContent="—";
 
 
 /*
-   Profile load হলেই counter update
+   Page load হলেই
+   counter update হবে।
 */
 
 updateVisitorCounter();
+
 
 </script>
 
