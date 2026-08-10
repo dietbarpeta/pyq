@@ -220,8 +220,6 @@ box-shadow:
 }
 
 
-/* Profile image */
-
 .avatar img{
 
 width:100%;
@@ -398,6 +396,151 @@ color:#94a3b8;
 
 
 /* =========================
+   VISITOR COUNTER
+========================= */
+
+.visitor-counter{
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:10px;
+
+margin-bottom:22px;
+
+}
+
+
+.visitor-box{
+
+background:
+linear-gradient(
+145deg,
+#1e293b,
+#172033
+);
+
+border:
+1px solid #334155;
+
+border-radius:14px;
+
+padding:13px 8px;
+
+text-align:center;
+
+transition:.25s;
+
+}
+
+
+.visitor-box:hover{
+
+transform:
+translateY(-3px);
+
+border-color:#475569;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.25);
+
+}
+
+
+.visitor-icon{
+
+width:32px;
+
+height:32px;
+
+margin:0 auto 7px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:50%;
+
+background:#3b82f620;
+
+color:#60a5fa;
+
+font-size:14px;
+
+}
+
+
+.visitor-number{
+
+display:block;
+
+font-size:19px;
+
+font-weight:700;
+
+color:#fff;
+
+line-height:1.2;
+
+}
+
+
+.visitor-label{
+
+display:block;
+
+font-size:10px;
+
+color:#94a3b8;
+
+margin-top:4px;
+
+}
+
+
+/* =========================
+   COUNTER STATUS
+========================= */
+
+.counter-status{
+
+font-size:9px;
+
+color:#475569;
+
+margin-top:-15px;
+
+margin-bottom:20px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:5px;
+
+}
+
+
+.counter-status-dot{
+
+width:5px;
+
+height:5px;
+
+border-radius:50%;
+
+background:#22c55e;
+
+}
+
+
+/* =========================
    SOCIAL
 ========================= */
 
@@ -566,6 +709,12 @@ gap:6px;
 
 }
 
+.visitor-counter{
+
+gap:7px;
+
+}
+
 }
 
 
@@ -712,6 +861,73 @@ simple and accessible way.
 
 
 <!-- =====================
+     VISITOR COUNTER
+===================== -->
+
+<div class="visitor-counter">
+
+
+<!-- TOTAL VISITS -->
+
+<div class="visitor-box">
+
+<div class="visitor-icon">
+
+<i class="fa-solid fa-eye"></i>
+
+</div>
+
+<strong
+class="visitor-number"
+id="totalVisits"
+>
+—
+</strong>
+
+<span class="visitor-label">
+Total Visits
+</span>
+
+</div>
+
+
+<!-- UNIQUE VISITORS -->
+
+<div class="visitor-box">
+
+<div class="visitor-icon">
+
+<i class="fa-solid fa-user-check"></i>
+
+</div>
+
+<strong
+class="visitor-number"
+id="uniqueVisitors"
+>
+—
+</strong>
+
+<span class="visitor-label">
+Unique Visitors
+</span>
+
+</div>
+
+
+</div>
+
+
+<div class="counter-status">
+
+<span class="counter-status-dot"></span>
+
+Live Visitor Counter
+
+</div>
+
+
+<!-- =====================
      SOCIAL LINKS
 ===================== -->
 
@@ -719,7 +935,7 @@ simple and accessible way.
 
 
 <a
-href="https://www.facebook.com/ishajidulahmed/"
+href="https://fb.me/shajidulahmed"
 aria-label="Facebook"
 target="_blank"
 rel="noopener"
@@ -790,11 +1006,11 @@ Powered by
 </div>
 
 
-<!-- =========================
-     FALLBACK IMAGE SCRIPT
-========================= -->
-
 <script>
+
+/* =====================================================
+   PROFILE IMAGE FALLBACK
+===================================================== */
 
 const profileImage =
 document.getElementById("profileImage");
@@ -802,11 +1018,6 @@ document.getElementById("profileImage");
 const profileFallback =
 document.getElementById("profileFallback");
 
-
-/*
-   Image load না হলে
-   fallback icon দেখাবে
-*/
 
 profileImage.addEventListener(
 "error",
@@ -816,14 +1027,8 @@ profileImage.style.display="none";
 
 profileFallback.style.display="block";
 
-}
-);
+});
 
-
-/*
-   Image থাকলে নিশ্চিতভাবে
-   image-ই দেখাবে
-*/
 
 profileImage.addEventListener(
 "load",
@@ -833,8 +1038,108 @@ profileImage.style.display="block";
 
 profileFallback.style.display="none";
 
+});
+
+
+/* =====================================================
+   VISITOR COUNTER
+===================================================== */
+
+const HIT_API =
+"https://sattrish-hit-counters.vercel.app/api/hit?key=diet";
+
+
+const GET_API =
+"https://sattrish-hit-counters.vercel.app/api/get?key=diet";
+
+
+const totalVisits =
+document.getElementById("totalVisits");
+
+
+const uniqueVisitors =
+document.getElementById("uniqueVisitors");
+
+
+/*
+   Profile page load হলে
+   প্রথমে HIT API call হবে।
+
+   API response-এই total এবং unique
+   পাওয়া যায়, তাই আলাদা GET call
+   করার প্রয়োজন নেই।
+*/
+
+async function updateVisitorCounter(){
+
+try{
+
+const response =
+await fetch(
+HIT_API,
+{
+method:"GET",
+cache:"no-store"
 }
 );
+
+
+if(!response.ok){
+
+throw new Error(
+"Counter API error"
+);
+
+}
+
+
+const data =
+await response.json();
+
+
+/* Total visits */
+
+totalVisits.textContent =
+data.total_formatted ??
+data.total ??
+"—";
+
+
+/* Unique visitors */
+
+uniqueVisitors.textContent =
+data.unique_formatted ??
+data.unique ??
+"—";
+
+
+}catch(error){
+
+console.error(
+"Visitor counter error:",
+error
+);
+
+
+/*
+   API কাজ না করলে
+   counter ভেঙে যাবে না।
+*/
+
+totalVisits.textContent="—";
+
+uniqueVisitors.textContent="—";
+
+}
+
+}
+
+
+/*
+   Profile load হলেই counter update
+*/
+
+updateVisitorCounter();
 
 </script>
 
