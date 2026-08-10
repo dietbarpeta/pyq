@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DELED Previous Year Papers</title>
+
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="msapplication-navbutton-color" content="#0f172a">
+
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="shortcut icon" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:system-ui;
+background:linear-gradient(180deg,#0f172a,#020617);
+color:white;
+min-height:100vh;
+}
+
+/* ================= HEADER ================= */
+
+header{
+background:#020617;
+padding:20px;
+text-align:center;
+font-size:22px;
+font-weight:600;
+border-bottom:1px solid #1e293b;
+box-shadow:0 3px 12px rgba(0,0,0,.45);
+}
+
+/* ================= CONTAINER ================= */
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+/* ================= SEARCH ================= */
+
+.topbar{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:15px;
+}
+
+.search{
+flex:1;
+}
+
+.search input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+background:#1e293b;
+color:white;
+font-size:15px;
+outline:none;
+}
+
+.counter{
+padding:12px 14px;
+background:#1e293b;
+border-radius:12px;
+font-size:14px;
+}
+
+/* ================= SEMESTER ================= */
+
+.sem-wrapper{
+position:sticky;
+top:0;
+z-index:10;
+background:#0f172a;
+}
+
+.sem-menu{
+display:flex;
+gap:10px;
+overflow-x:auto;
+padding:12px 0;
+}
+
+.sem{
+flex:0 0 auto;
+background:#1e293b;
+padding:8px 18px;
+border-radius:30px;
+cursor:pointer;
+white-space:nowrap;
+font-size:14px;
+transition:.25s;
+border:1px solid #334155;
+font-weight:500;
+}
+
+.sem:hover{
+background:#334155;
+}
+
+.sem.active{
+background:#3b82f6;
+border-color:#3b82f6;
+box-shadow:0 0 12px rgba(59,130,246,.6);
+}
+
+/* ================= YEAR ================= */
+
+.year{
+margin-bottom:20px;
+border-radius:14px;
+overflow:hidden;
+border:1px solid #1e293b;
+background:#020617;
+}
+
+.year-header{
+padding:15px 18px;
+display:flex;
+justify-content:space-between;
+cursor:pointer;
+align-items:center;
+font-weight:500;
+font-size:15px;
+}
+
+.year-header:hover{
+background:#1e293b;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+gap:12px;
+padding:0 15px;
+height:0;
+overflow:hidden;
+transition:height .35s ease;
+}
+
+.year.open .grid{
+padding:15px;
+height:auto;
+}
+
+.year.open .fa-chevron-down{
+transform:rotate(180deg);
+transition:.3s;
+}
+
+/* ================= CARD ================= */
+
+.card{
+background:rgba(30,41,59,.95);
+border-radius:14px;
+padding:15px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+transition:.25s;
+border:1px solid #334155;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 24px rgba(0,0,0,.55);
+background:#334155;
+}
+
+.title{
+font-size:14px;
+margin-bottom:10px;
+line-height:1.4;
+font-weight:500;
+}
+
+.meta{
+font-size:12px;
+color:#94a3b8;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.badge{
+font-size:11px;
+padding:4px 10px;
+border-radius:20px;
+font-weight:500;
+display:inline-flex;
+align-items:center;
+gap:4px;
+}
+
+.badge.sem1{
+background:#16a34a33;
+color:#22c55e;
+border:1px solid #22c55e66;
+}
+
+.badge.sem2{
+background:#2563eb33;
+color:#3b82f6;
+border:1px solid #3b82f666;
+}
+
+.badge.sem3{
+background:#9333ea33;
+color:#c084fc;
+border:1px solid #a855f766;
+}
+
+.badge.sem4{
+background:#ea580c33;
+color:#fb923c;
+border:1px solid #fb923c66;
+}
+
+/* ================= BUTTON ================= */
+
+.btn{
+display:flex;
+gap:8px;
+}
+
+.btn a{
+flex:1;
+text-align:center;
+padding:8px;
+border-radius:10px;
+text-decoration:none;
+font-size:13px;
+color:white;
+font-weight:500;
+transition:.2s;
+}
+
+.view{
+background:#3b82f6;
+}
+
+.download{
+background:#22c55e;
+}
+
+.view:hover{
+background:#2563eb;
+}
+
+.download:hover{
+background:#16a34a;
+}
+
+/* ================= SEARCH HIGHLIGHT ================= */
+
+mark{
+background:#facc15;
+color:#000;
+padding:1px 3px;
+border-radius:3px;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+text-align:center;
+padding:20px;
+color:#64748b;
+font-size:13px;
+}
+
+/* =========================================================
+   PROFILE POPUP
+========================================================= */
+
+.profile-popup{
+position:fixed;
+inset:0;
+z-index:9999;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+padding:20px;
+
+background:rgba(0,0,0,.78);
+
+backdrop-filter:blur(8px);
+-webkit-backdrop-filter:blur(8px);
+
+opacity:1;
+visibility:visible;
+
+transition:.3s ease;
+}
+
+/* Popup closed */
+
+.profile-popup.closed{
+opacity:0;
+visibility:hidden;
+pointer-events:none;
+}
+
+/* ================= POPUP BOX ================= */
+
+.profile-popup-box{
+position:relative;
+
+width:min(500px,100%);
+height:min(700px,90vh);
+
+background:#020617;
+
+border:1px solid #334155;
+border-radius:20px;
+
+overflow:hidden;
+
+box-shadow:
+0 25px 80px rgba(0,0,0,.75),
+0 0 30px rgba(59,130,246,.12);
+
+animation:profilePopupIn .35s ease;
+}
+
+/* ================= IFRAME ================= */
+
+.profile-frame{
+width:100%;
+height:100%;
+border:none;
+display:block;
+background:#020617;
+}
+
+/* ================= CLOSE BUTTON ================= */
+
+.profile-close{
+position:absolute;
+
+top:10px;
+right:10px;
+
+z-index:20;
+
+width:38px;
+height:38px;
+
+border:none;
+border-radius:50%;
+
+background:rgba(15,23,42,.90);
+color:white;
+
+font-size:18px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+cursor:pointer;
+
+border:1px solid #475569;
+
+box-shadow:0 4px 15px rgba(0,0,0,.4);
+
+transition:.2s;
+}
+
+.profile-close:hover{
+background:#ef4444;
+border-color:#ef4444;
+transform:rotate(90deg);
+}
+
+/* ================= POPUP ANIMATION ================= */
+
+@keyframes profilePopupIn{
+
+from{
+opacity:0;
+transform:scale(.92) translateY(20px);
+}
+
+to{
+opacity:1;
+transform:scale(1) translateY(0);
+}
+
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
+
+.profile-popup{
+padding:10px;
+}
+
+.profile-popup-box{
+width:100%;
+height:90vh;
+border-radius:18px;
+}
+
+.profile-close{
+top:8px;
+right:8px;
+width:36px;
+height:36px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<i class="fa fa-book"></i>
+DELED Previous Year Papers
+</header>
+
+
+<div class="container">
+
+<div class="topbar">
+
+<div class="search">
+<input id="search" placeholder="Search subject...">
+</div>
+
+<div class="counter">
+<i class="fa fa-file"></i>
+<span id="count">0</span> Papers
+</div>
+
+</div>
+
+
+<div class="sem-wrapper">
+
+<div class="sem-menu" id="semMenu"></div>
+
+</div>
+
+
+<div id="content"></div>
+
+</div>
+
+
+<footer>
+Powered by <b>incognito</b>
+</footer>
+
+
+<!-- =========================================================
+     PROFILE POPUP
+========================================================= -->
+
+<div class="profile-popup" id="profilePopup">
+
+<div class="profile-popup-box">
+
+<button
+class="profile-close"
+id="profileClose"
+aria-label="Close Profile">
+
+<i class="fa fa-xmark"></i>
+
+</button>
+
+<iframe
+class="profile-frame"
+src="profile.html"
+title="Profile">
+</iframe>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   PROFILE POPUP
+========================================================= */
+
+const profilePopup =
+document.getElementById("profilePopup");
+
+const profileClose =
+document.getElementById("profileClose");
+
+
+/* Close popup */
+
+profileClose.addEventListener("click",function(){
+
+profilePopup.classList.add("closed");
+
+});
+
+
+/* Click outside popup to close */
+
+profilePopup.addEventListener("click",function(e){
+
+if(e.target === profilePopup){
+
+profilePopup.classList.add("closed");
+
+}
+
+});
+
+
+/* ESC key দিয়ে close */
+
+document.addEventListener("keydown",function(e){
+
+if(e.key === "Escape"){
+
+profilePopup.classList.add("closed");
+
+}
+
+});
+
+
+/* =========================================================
+   PREVIOUS YEAR PAPER SYSTEM
+========================================================= */
+
+let apiData;
+
+let currentSem="all";
+
+const searchInput =
+document.getElementById("search");
+
+const content =
+document.getElementById("content");
+
+const semMenu =
+document.getElementById("semMenu");
+
+const count =
+document.getElementById("count");
+
+
+async function loadData(){
+
+let r=await fetch(
+"https://raw.githubusercontent.com/assamboardpapers/assam-deled-scraper/refs/heads/main/api/pdf.json"
+);
+
+apiData=await r.json();
+
+count.innerText=apiData.total;
+
+createSemesterMenu();
+
+render(apiData);
+
+}
+
+loadData();
+
+
+function getSemester(c){
+
+let m=c.match(/(\d)-sem/);
+
+return m?m[1]:null;
+
+}
+
+
+function highlight(text,q){
+
+if(!q)return text;
+
+let reg=new RegExp(`(${q})`,"gi");
+
+return text.replace(
+reg,
+"<mark>$1</mark>"
+);
+
+}
+
+
+function createSemesterMenu(){
+
+let set=new Set();
+
+for(let y in apiData.years){
+
+apiData.years[y].forEach(p=>{
+
+let s=getSemester(p.class);
+
+if(s)set.add(parseInt(s));
+
+});
+
+}
+
+let arr=[...set].sort(
+(a,b)=>a-b
+);
+
+let html=
+'<div class="sem active" data-sem="all">All</div>';
+
+arr.forEach(s=>{
+
+html+=`
+<div class="sem" data-sem="${s}">
+Semester ${s}
+</div>
+`;
+
+});
+
+semMenu.innerHTML=html;
+
+
+document.querySelectorAll(".sem")
+.forEach(el=>{
+
+el.onclick=function(){
+
+document
+.querySelectorAll(".sem")
+.forEach(x=>
+x.classList.remove("active")
+);
+
+this.classList.add("active");
+
+currentSem=this.dataset.sem;
+
+render(apiData);
+
+};
+
+});
+
+}
+
+
+function render(data){
+
+let q=searchInput.value.toLowerCase();
+
+let years=Object.keys(data.years)
+.sort((a,b)=>b-a);
+
+let html="";
+
+
+years.forEach((year,i)=>{
+
+let cards="";
+
+
+data.years[year].forEach(p=>{
+
+let sem=getSemester(p.class);
+
+
+if(
+currentSem=="all" ||
+sem==currentSem
+){
+
+let title=
+highlight(p.title,q);
+
+
+cards+=`
+
+<div class="card">
+
+<div>
+
+<div class="title">
+
+<i class="fa fa-file-pdf"></i>
+
+${title}
+
+</div>
+
+
+<div class="meta">
+
+<span>${p.class}</span>
+
+<span class="badge sem${sem}">
+
+<i class="fa fa-layer-group"></i>
+
+Sem ${sem}
+
+</span>
+
+</div>
+
+</div>
+
+
+<div class="btn">
+
+<a
+class="view"
+target="_blank"
+href="${p.url}">
+
+<i class="fa fa-eye"></i>
+
+View
+
+</a>
+
+
+<a
+class="download"
+href="${p.url}"
+download>
+
+<i class="fa fa-download"></i>
+
+</a>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+});
+
+
+if(cards){
+
+html+=`
+
+<div class="year ${i==0?"open":""}">
+
+<div
+class="year-header"
+onclick="toggleYear(this)">
+
+<span>
+
+<i class="fa fa-calendar"></i>
+
+${year}
+
+</span>
+
+<i class="fa fa-chevron-down"></i>
+
+</div>
+
+
+<div class="grid">
+
+${cards}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+});
+
+
+content.innerHTML=html;
+
+}
+
+
+function toggleYear(el){
+
+let box=el.parentElement;
+
+let grid=box.querySelector(".grid");
+
+
+if(box.classList.contains("open")){
+
+grid.style.height=
+grid.scrollHeight+"px";
+
+
+setTimeout(()=>{
+
+grid.style.height="0px";
+
+box.classList.remove("open");
+
+},10);
+
+}
+
+else{
+
+box.classList.add("open");
+
+grid.style.height=
+grid.scrollHeight+"px";
+
+
+setTimeout(()=>{
+
+grid.style.height="auto";
+
+},350);
+
+}
+
+}
+
+
+searchInput.oninput=function(){
+
+let q=this.value.toLowerCase();
+
+let filtered={
+years:{},
+total:0
+};
+
+
+for(let y in apiData.years){
+
+let items=
+apiData.years[y].filter(p=>
+p.title
+.toLowerCase()
+.includes(q)
+);
+
+
+if(items.length){
+
+filtered.years[y]=items;
+
+filtered.total+=items.length;
+
+}
+
+}
+
+
+count.innerText=filtered.total;
+
+render(filtered);
+
+};
+
+</script>
+
+</body>
+</html>
