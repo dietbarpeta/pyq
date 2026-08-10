@@ -10,7 +10,7 @@ name="viewport"
 content="width=device-width,initial-scale=1"
 >
 
-<title>Profile</title>
+<title>Shajidul Ahmed | Profile</title>
 
 <meta
 name="theme-color"
@@ -93,6 +93,9 @@ overflow:hidden;
 box-shadow:
 0 25px 60px rgba(0,0,0,.55);
 
+animation:
+profileIn .45s ease;
+
 }
 
 
@@ -130,7 +133,9 @@ linear-gradient(
 }
 
 
-/* Decorative circles */
+/* =========================
+   COVER DECORATION
+========================= */
 
 .cover::before{
 
@@ -139,13 +144,17 @@ content:"";
 position:absolute;
 
 width:150px;
+
 height:150px;
 
 border-radius:50%;
 
-border:1px solid rgba(255,255,255,.12);
+border:
+1px solid
+rgba(255,255,255,.12);
 
 top:-70px;
+
 right:-40px;
 
 }
@@ -157,13 +166,17 @@ content:"";
 position:absolute;
 
 width:100px;
+
 height:100px;
 
 border-radius:50%;
 
-border:1px solid rgba(255,255,255,.08);
+border:
+1px solid
+rgba(255,255,255,.08);
 
 bottom:-60px;
+
 left:-30px;
 
 }
@@ -207,10 +220,7 @@ box-shadow:
 }
 
 
-/*
-   আপনার ছবি ব্যবহার করতে চাইলে
-   নিচের img uncomment করুন
-*/
+/* Profile image */
 
 .avatar img{
 
@@ -220,16 +230,22 @@ height:100%;
 
 object-fit:cover;
 
+display:block;
+
 }
 
 
-/* যদি ছবি না থাকে */
+/* =========================
+   FALLBACK ICON
+========================= */
 
-.avatar i{
+.profile-fallback{
 
 font-size:42px;
 
 color:#64748b;
+
+display:none;
 
 }
 
@@ -240,7 +256,8 @@ color:#64748b;
 
 .content{
 
-padding:65px 24px 25px;
+padding:
+65px 24px 25px;
 
 text-align:center;
 
@@ -299,7 +316,8 @@ border-radius:20px;
 
 background:#3b82f620;
 
-border:1px solid #3b82f655;
+border:
+1px solid #3b82f655;
 
 color:#60a5fa;
 
@@ -342,17 +360,20 @@ margin-bottom:22px;
 
 }
 
+
 .stat{
 
 background:#1e293b;
 
-border:1px solid #334155;
+border:
+1px solid #334155;
 
 border-radius:14px;
 
 padding:12px 5px;
 
 }
+
 
 .stat strong{
 
@@ -365,6 +386,7 @@ color:#fff;
 margin-bottom:3px;
 
 }
+
 
 .stat span{
 
@@ -391,6 +413,7 @@ margin-bottom:22px;
 
 }
 
+
 .social a{
 
 width:42px;
@@ -407,7 +430,8 @@ border-radius:50%;
 
 background:#1e293b;
 
-border:1px solid #334155;
+border:
+1px solid #334155;
 
 color:#cbd5e1;
 
@@ -418,6 +442,7 @@ font-size:17px;
 transition:.25s;
 
 }
+
 
 .social a:hover{
 
@@ -465,11 +490,13 @@ transition:.25s;
 
 }
 
+
 .website:hover{
 
 background:#2563eb;
 
-transform:translateY(-2px);
+transform:
+translateY(-2px);
 
 }
 
@@ -484,13 +511,15 @@ margin-top:20px;
 
 padding-top:18px;
 
-border-top:1px solid #1e293b;
+border-top:
+1px solid #1e293b;
 
 font-size:11px;
 
 color:#64748b;
 
 }
+
 
 .profile-footer b{
 
@@ -544,13 +573,6 @@ gap:6px;
    ANIMATION
 ========================= */
 
-.profile{
-
-animation:
-profileIn .45s ease;
-
-}
-
 @keyframes profileIn{
 
 from{
@@ -598,17 +620,18 @@ scale(1);
 ===================== -->
 
 <div class="avatar">
-<img src="profile.jpg" alt="Profile">
-<!--
 
-নিজের ছবি দিতে চাইলে:
+<img
+src="profile.jpg"
+alt="Profile"
+id="profileImage"
+>
 
-<img src="profile.jpg" alt="Profile">
+<i
+class="fa-solid fa-user profile-fallback"
+id="profileFallback"
+></i>
 
-
-
-<i class="fa-solid fa-user"></i>
--->
 </div>
 
 </div>
@@ -698,6 +721,8 @@ simple and accessible way.
 <a
 href="https://fb.me/shajidulahmed"
 aria-label="Facebook"
+target="_blank"
+rel="noopener"
 >
 
 <i class="fa-brands fa-facebook-f"></i>
@@ -716,26 +741,16 @@ aria-label="Telegram"
 
 
 <a
-href="https://Instagram.com/shajidulahmed"
+href="https://instagram.com/shajidulahmed"
 aria-label="Instagram"
+target="_blank"
+rel="noopener"
 >
 
 <i class="fa-brands fa-instagram"></i>
 
 </a>
 
-<!-- =====================
-<a
-href="#"
-aria-label="GitHub"
->
-===================== -->
-	<!-- =====================
-<i class="fa-brands fa-github"></i>
-===================== -->
-<!-- =====================
-</a>
-===================== -->
 
 </div>
 
@@ -748,6 +763,7 @@ aria-label="GitHub"
 href="https://www.sidlibrary.in/?m=1"
 class="website"
 target="_blank"
+rel="noopener"
 >
 
 <i class="fa-solid fa-globe"></i>
@@ -772,6 +788,55 @@ Powered by
 </div>
 
 </div>
+
+
+<!-- =========================
+     FALLBACK IMAGE SCRIPT
+========================= -->
+
+<script>
+
+const profileImage =
+document.getElementById("profileImage");
+
+const profileFallback =
+document.getElementById("profileFallback");
+
+
+/*
+   Image load না হলে
+   fallback icon দেখাবে
+*/
+
+profileImage.addEventListener(
+"error",
+function(){
+
+profileImage.style.display="none";
+
+profileFallback.style.display="block";
+
+}
+);
+
+
+/*
+   Image থাকলে নিশ্চিতভাবে
+   image-ই দেখাবে
+*/
+
+profileImage.addEventListener(
+"load",
+function(){
+
+profileImage.style.display="block";
+
+profileFallback.style.display="none";
+
+}
+);
+
+</script>
 
 
 </body>
